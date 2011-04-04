@@ -1,0 +1,55 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jquery.maps demo</title>
+
+  <!-- CSS: implied media="all" -->
+  <link rel="stylesheet" href="jquery.maps.css">
+
+</head>
+
+<body>
+
+	<div id="map" style="border: solid 1px #ccc; width: 500px; height: 300px;">
+        <h2 class="maps-title">Map Details: <a href="#map-skip">skip</a></h2>
+        <div class="geo">Location Name: 
+			<span class="latitude">51.39768</span>, 
+			<span class="longitude">-0.10733</span>. 
+			Zoom: <span class="zoom">12</span>
+		</div>
+        <div class="maps-container">
+        	<div class="maps-container-loading"></div>
+		</div>
+        <ul class="maps-pins"></ul>
+        <div id="map-skip"></div>
+	</div>
+</div>
+	
+
+  <!-- JavaScript at the bottom for fast page loading -->
+
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>
+
+  <!-- Google Maps API -->
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&region=GB"></script>
+
+  <!-- scripts concatenated and minified via ant build script-->
+  <script src="maps-v3infoWindow.js"></script>
+  <script src="maps-v3pin.js"></script>
+  <script src="jquery.maps.js"></script>
+  <script>
+		$('#map').maps();    
+  </script>
+  <!-- end scripts-->
+
+  <script>
+    var _gaq=[['_setAccount','UA-4421586-2'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+  </script>
+
+</body>
+</html>
