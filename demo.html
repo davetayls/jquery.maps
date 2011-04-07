@@ -6,7 +6,9 @@
 
   <!-- CSS: implied media="all" -->
   <link rel="stylesheet" href="jquery.maps.css">
-
+    <style>
+        
+    </style>
 </head>
 
 <body>
@@ -24,8 +26,20 @@
         <ul class="maps-pins"></ul>
         <div id="map-skip"></div>
 	</div>
-</div>
 	
+	<div id="map2" style="border: solid 1px #ccc; width: 500px; height: 300px;">
+        <h2 class="maps-title">Map Details: <a href="#map-skip">skip</a></h2>
+        <div class="geo">Location Name: 
+			<span class="latitude">51.39768</span>, 
+			<span class="longitude">-0.10733</span>. 
+			Zoom: <span class="zoom">12</span>
+		</div>
+        <div class="maps-container">
+        	<div class="maps-container-loading"></div>
+		</div>
+        <ul class="maps-pins"></ul>
+        <div id="map-skip"></div>
+	</div>
 
   <!-- JavaScript at the bottom for fast page loading -->
 
@@ -40,7 +54,8 @@
   <script src="maps-v3pin.js"></script>
   <script src="jquery.maps.js"></script>
   <script>
-		$('#map').maps();    
+		$('#map').maps();
+        $('#map2').maps();
   </script>
   <!-- end scripts-->
 
