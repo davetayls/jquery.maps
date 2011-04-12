@@ -1,14 +1,19 @@
 /*
     jQuery Maps
 ------------------------------------------------*/
-/* non js styling */
-/*.cp-map { display: none; }*/
-.map { display: block; }
-div.maps-applied { display: block; }
+/*.map { display: block; position: relative; }*/
+div.maps-applied { display: block; position: relative; }
 
 /* hide non-visual elements */
 div.maps-applied .maps-title,
 div.maps-applied .geo { position:absolute; display: block; top: auto; left: -10000px; width: 1px; height: 1px; }
+
+.maps-staticLink {
+    display: block;
+    padding: 3px 5px;
+
+}
+
 
     .maps-container-applied {
         height: 100%;
@@ -21,7 +26,7 @@ div.maps-applied .geo { position:absolute; display: block; top: auto; left: -100
         display: none;
     }
         .maps-pins li {
-            border: solid 1px #b21226;
+            background: #eee;
             display: block;
             list-style: none none;
             margin: 5px 0;
@@ -44,64 +49,60 @@ div.maps-applied .geo { position:absolute; display: block; top: auto; left: -100
 /*
     pin styling 
 --------------------------------------------------------------*/
-.cp-map-pin {
+.maps-pin {
     height: 0px;
     position: absolute;
     width: 0px;
 	z-index:1;
 }
-    .cp-map-pin-inner {
+    .maps-pin-inner {
         -moz-background-size:auto auto;
-        background-image:url("../../../img/sprites.png");
+        background-image:url("images/map-markers.png");
         background-position: 0 0;
         background-repeat:no-repeat;
         bottom: 0;
         cursor:pointer;
         left: -5px;
-        overflow:hidden;
         position:absolute;
         top: -14px;
-        height: 34px;
-        width: 25px;
+        height: 16px;
+        width: 10px;
         z-index:200;
     }
-        .cp-map-pin-contents {
-            bottom: 9px;
+        .maps-pin-contents {
+            background: #fff;
+            bottom: 19px;
             font-size:11px;
             font-weight:bold;
-            left:3px;
+            left: -2px;
             position:absolute;
             text-align:center;
-            top: 1px;
             width: 13px;
         }
 
-	.cp-map-pinTman {
-		position: relative;
-		z-index: 10;
-	}
-    .cp-map-pinTlarge .cp-map-pin-inner {
-        background-position: -57px 0;
-		top: -19px;
-		height: 28px;
-        width: 30px;
-    }
-    .cp-map-pinTsmall .cp-map-pin-inner {
-        background-position: -96px 0;
-		top: -12px;
-		height: 18px;
+	.maps-pinTshield .maps-pin-inner {
+        background-position: -10px 0;
+        height: 16px;
         width: 16px;
-    }
-
+	}
+        .maps-pinTshield .maps-pin-contents {
+            background: transparent;
+            text-shadow: 0 1px 1px #222;
+            color: #fff;
+            top: 1px;
+            bottom: 0;
+            left: 1px;
+            right: 0;
+        }
 
 /* 
     info window styling
 --------------------------------------------------------*/
-.cp-map-infoWindow {
+.maps-infoWindow {
     width: 1px;
     height: 1px;
 }
-.cp-map-infoWindow-inner {
+.maps-infoWindow-inner {
     bottom: 60px;
     left: -84px;
     position: absolute;
@@ -109,104 +110,104 @@ div.maps-applied .geo { position:absolute; display: block; top: auto; left: -100
     z-index: 1;
     zoom: 1;
 }
-    .cp-map-infoWindow_contents {
+    .maps-infoWindow_contents {
         background-color: #fff;
         margin: 0;
         padding: 5px 20px 5px 5px;
     }
     
-    .cp-map-infoWindow_contents a {
+    .maps-infoWindow_contents a {
             color: #2e3d58 !important;
             text-decoration:underline;
             font-weight:bold;
     }
     
-        .cp-map-infoWindow_contents * {
+        .maps-infoWindow_contents * {
             color: #2e3d58;
         }
 
-    .cp-map-infoWindow_tl {
+    .maps-infoWindow_tl {
       left: -16px;
       position: absolute;
       top: -16px;
       width: 16px;
       height: 16px;
-      background: url('/images/map-bubble-tl.png') top left no-repeat transparent;
+      background: url('images/map-bubble-tl.png') top left no-repeat transparent;
     }
-    * html .cp-map-infoWindow_tl {
+    * html .maps-infoWindow_tl {
       background-image:none;
-      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/map-bubble-tl.png', sizingMethod='crop');
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map-bubble-tl.png', sizingMethod='crop');
     }
-    .cp-map-infoWindow_t {
-      background: url('/images/map-bubble-t.png') top left repeat-x transparent;
+    .maps-infoWindow_t {
+      background: url('images/map-bubble-t.png') top left repeat-x transparent;
       height: 16px;
       position: absolute;
       left: 0;
       top: -16px;
       width: 100%;
     }
-    .cp-map-infoWindow_tr {
+    .maps-infoWindow_tr {
       position: absolute;
       right: -16px;
       top: -16px;
       width: 16px;
       height: 16px;
-      background: url('/images/map-bubble-tr.png') top left no-repeat transparent;
+      background: url('images/map-bubble-tr.png') top left no-repeat transparent;
     }
-    * html .cp-map-infoWindow_tr {
+    * html .maps-infoWindow_tr {
       background-image:none;
-      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/map-bubble-tr.png', sizingMethod='crop');
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map-bubble-tr.png', sizingMethod='crop');
     }
-    .cp-map-infoWindow_l {
+    .maps-infoWindow_l {
       height: 100%;
       left: -16px;
       position: absolute;
       top: 0;
       width: 16px;
-      background: url('/images/map-bubble-l.png') top left repeat-y transparent;
+      background: url('images/map-bubble-l.png') top left repeat-y transparent;
     }
-    .cp-map-infoWindow_r {
+    .maps-infoWindow_r {
       height: 100%;
       right: -16px;
       position: absolute;
       top: 0;
       width: 16px;
-      background: url('/images/map-bubble-r.png') top right repeat-y transparent;
+      background: url('images/map-bubble-r.png') top right repeat-y transparent;
     }
-    .cp-map-infoWindow_bl {
+    .maps-infoWindow_bl {
       position: absolute;
       bottom: -16px;
       left: -16px;
       width: 16px;
       height: 16px;
-      background: url('/images/map-bubble-bl.png') top left no-repeat transparent;
+      background: url('images/map-bubble-bl.png') top left no-repeat transparent;
     }
-    * html .cp-map-infoWindow_bl {
+    * html .maps-infoWindow_bl {
       background-image:none;
-      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/map-bubble-bl.png', sizingMethod='crop');
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map-bubble-bl.png', sizingMethod='crop');
     }
-    .cp-map-infoWindow_b {
-      background: url('/images/map-bubble-b.png') top left repeat-x transparent;
+    .maps-infoWindow_b {
+      background: url('images/map-bubble-b.png') top left repeat-x transparent;
       height: 16px;
       left: 0;
       position: absolute;
       bottom: -16px;
       width: 100%
     }
-    .cp-map-infoWindow_br {
+    .maps-infoWindow_br {
       position: absolute;
       bottom: -16px;
       right: -16px;
       width: 16px;
       height: 16px;
-      background: url('/images/map-bubble-br.png') top left no-repeat transparent;
+      background: url('images/map-bubble-br.png') top left no-repeat transparent;
     }
-    * html .cp-map-infoWindow_br {
+    * html .maps-infoWindow_br {
       background-image:none;
-      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/map-bubble-br.png', sizingMethod='crop');
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map-bubble-br.png', sizingMethod='crop');
     }
-    .cp-map-infoWindow_close {
-        background: url('/images/sprites-h.png') no-repeat transparent -25px -50px;
+    .maps-infoWindow_close {
+        background: url('images/sprites-h.png') no-repeat transparent -25px -50px;
         cursor: pointer;
         height: 9px;
         margin: 4px 0 0 -7px;
@@ -215,69 +216,69 @@ div.maps-applied .geo { position:absolute; display: block; top: auto; left: -100
         top: 5px;
         width: 5px;
     }
-    .cp-map-infoWindow_max {
+    .maps-infoWindow_max {
       width: 21px;
       height: 21px;
-      background: url('/images/corners/red_max.png') top left no-repeat transparent;
+      background: url('images/corners/red_max.png') top left no-repeat transparent;
       cursor: pointer;
     }
-    * html .cp-map-infoWindow_max {
+    * html .maps-infoWindow_max {
       background-image:none;
-      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/corners/red_max.png', sizingMethod='crop');
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corners/red_max.png', sizingMethod='crop');
     }
-    .cp-map-infoWindow_min {
+    .maps-infoWindow_min {
       width: 21px;
       height: 21px;
-      background: url('/images/corners/red_min.png') top left no-repeat transparent;
+      background: url('images/corners/red_min.png') top left no-repeat transparent;
       cursor: pointer;
     }
-    * html .cp-map-infoWindow_min {
+    * html .maps-infoWindow_min {
       background-image:none;
-      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/corners/red_min.png', sizingMethod='crop');
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corners/red_min.png', sizingMethod='crop');
     }
-    .cp-map-infoWindow_beak {
+    .maps-infoWindow_beak {
       bottom: 28px;
       left: -14px;
       position: absolute;
       width: 29px;
       height: 26px;
-      background: url('/images/map-bubble-beak.png') top left no-repeat transparent;
+      background: url('images/map-bubble-beak.png') top left no-repeat transparent;
       z-index: 5;
     }
-    * html .cp-map-infoWindow_beak {
+    * html .maps-infoWindow_beak {
       background-image:none;
-      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/map-bubble-beak.png', sizingMethod='crop');
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map-bubble-beak.png', sizingMethod='crop');
     }
     
 
 
 /* Fix to stop the Google copyright notice from extending out of the map area -
 it overwrites the inline HTML style, which is set to white-space: nowrap;*/       
-    .cp-map[style]{
+    .maps-applied[style]{
      font-size: inherit !important;
      white-space: inherit !important;
     }
-    .cp-map[style]{
+    .maps-applied[style]{
      white-space: inherit !important;
     }
-    .cp-map a[style]{
+    .maps-applied a[style]{
      color: inherit !important;
     }
-    .cp-map span { white-space: normal; }
+    .maps-applied span { white-space: normal; }
     
 
 /* Fix to stop the Google copyright notice from extending out of the map area -
 it overwrites the inline HTML style, which is set to white-space: nowrap;*/    
-    .cp-map[style]{
+    .maps-applied[style]{
      font-size: inherit !important;
      white-space: inherit !important;
     }
-    .cp-map[style]{
+    .maps-applied[style]{
      white-space: inherit !important;
     }
-    .cp-map a[style]{
+    .maps-applied a[style]{
      color: inherit !important;
     }
-    .cp-map span { white-space: normal; }
+    .maps-applied span { white-space: normal; }
 
 

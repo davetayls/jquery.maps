@@ -5,7 +5,7 @@
   <title>jquery.maps demo</title>
 
   <!-- CSS: implied media="all" -->
-  <link rel="stylesheet" href="jquery.maps.css">
+  <link rel="stylesheet" href="../jquery.maps.css">
     <style>
         #map.maps-applied,
         #map2.maps-applied {
@@ -31,7 +31,7 @@
 	
     <h2>Map with pins</h2>
 	<div id="map2" style="border: solid 1px #ccc; width: 500px;">
-        <h2 class="maps-title">Map Details: <a href="#map-skip">skip</a></h2>
+        <h2 class="maps-title">Map Details: <a href="#map2-skip">skip</a></h2>
         <div class="geo">Location Name: 
 			<span class="latitude">13.251</span>, <span class="longitude">123.684</span>.
 			Zoom: <span class="zoom">10</span>
@@ -52,12 +52,12 @@
                 <h3>Map Pin Information</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
             </li>
-            <li id="pin3">
+            <li id="pin3" class="maps-pinTshield">
                 <div class="geo">Location Name: <span class="latitude">13.150</span>, <span class="longitude">123.739</span>.</div>
                 <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.150,123.739">View this pin on a map</a>
             </li>
         </ul>
-        <div id="map-skip"></div>
+        <div id="map2-skip"></div>
 	</div>
 
   <!-- JavaScript at the bottom for fast page loading -->
@@ -65,16 +65,19 @@
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>
 
-  <!-- Google Maps API -->
-  <!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&region=GB"></script>-->
-
   <!-- scripts concatenated and minified via ant build script-->
-  <!--<script src="maps-v3infoWindow.js"></script>
-  <script src="maps-v3pin.js"></script>-->
-  <script src="jquery.maps.js"></script>
+  <script src="../maps-v3infoWindow.js"></script>
+  <script src="../maps-v3pin.js"></script>
+  <script src="../jquery.maps.js"></script>
   <script>
-		$('#map').maps();
-        $('#map2').maps();
+		$('#map').maps({
+            customPins:true, 
+            customWindows:true
+        });
+        $('#map2').maps({
+            customPins:true, 
+            customWindows:true
+        });
   </script>
   <!-- end scripts-->
 

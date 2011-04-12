@@ -29,17 +29,30 @@
 * OF THE POSSIBILITY OF SUCH DAMAGE. 
 *
 */
-/*global window */
-/*jslint forin:true */
-(function ($, google) {
-    //var mapHolder;
+/*globalconsole window google */
+/*jslint forin:true onevar:false strict:true */
+(function ($) {
+    "use strict";
+    
     var maps = {},
-    	maxNumberedPin = 100,
+        maxNumberedPin = 100,
 		DEFAULTS = {
-			centerPin: true,
-            customPins: false
-		};
+            gmapsUrl: 'http://maps.google.com/maps/api/js?sensor=false&async=2&callback=jQuery.maps.googleCallback',
+			centerPin: 'auto',
+            customPins: false,
+            customWindows: false
+		},
+        loadMapsApiXHR,
+        loadingMapsApi = false,
+        mapsApiLoaded = false,
+        ON_MAPS_API_LOADED = 'onMapsApiLoaded';
 
+    var log = function(){
+        if (typeof console !== 'undefined'){
+            console.log(arguments);
+        }
+    };
+    
     var placeIcon = function (map, latlng, cssClass, settings) {
         var genericIcon;
         if (settings && settings.customPins){
@@ -75,9 +88,11 @@
 
     var attachExternalInteractions = function () {
         $('body').delegate("a[href^='#']", 'click', function (ev) {
-            var this$ = $(this);
-            var pinID = this$.attr('href').replace('#', '');
-            for (var mapKey in maps) {
+            var this$ = $(this),
+                mapKey,
+                pinID = this$.attr('href').replace('#', '');
+
+            for (mapKey in maps) {
                 var map = maps[mapKey];
                 var pinDetails = map.pins[pinID];
                 if (pinDetails) {
@@ -91,8 +106,11 @@
         });
     };
 
-    $.fn.maps = function (options) {
-		var settings = $.extend({}, DEFAULTS, options);
+    /** 
+        initialises the maps within the jQuery object (this)
+        once the google api has been loaded
+    */
+    var initialiseMaps = function(settings){
         this.each(function () {
             var self = $(this),
                 mapHolder = self.find("> .maps-container").get(0),
@@ -114,14 +132,37 @@
             if (mapPins$.length > 0) {
                 // get pins
                 mapPins$.each(function (i) {
-                    var pin$ = $(this);
+                    var pin$ = $(this),
+                        pinGeo,
+                        newPin,
+                        newInfoWindow,
+                        infoWindow,
+                        windowContents;
+                    
                     pin$.find(".maps-pinLink").remove();
-                    var pinGeo = getGeoMicroFormatValues(pin$.find('>.geo').get(0));
+                    pinGeo = getGeoMicroFormatValues(pin$.find('>.geo').get(0));
                     if (pinGeo) {
-                        var newPin = placeIcon(map, pinGeo.latlng, pin$.attr("class"), settings);
-                        newPin.setContent(i + 1);
-                        var newInfoWindow = new $.maps.v3infoWindow(map, newPin);
-                        newInfoWindow.setContent(pin$.html());
+                        newPin = placeIcon(map, pinGeo.latlng, pin$.attr("class"), settings);
+                        if (newPin.setContent){
+                            newPin.setContent(i + 1);
+                        }
+                        if (pin$.children().filter(':not(.geo):not(.maps-pinLink)').length > 0){
+                            windowContents = pin$.html();
+                        }
+                        if (windowContents){
+                            if (settings.customWindows){
+                                newInfoWindow = new $.maps.v3infoWindow(map, newPin);
+                                newInfoWindow.setContent(windowContents);
+                            } else {
+                                if (!infoWindow){
+                                    infoWindow = new google.maps.InfoWindow();
+                                }
+                                google.maps.event.addListener(newPin, 'click', function() {
+                                    infoWindow.setContent(windowContents);
+                                    infoWindow.open(map, newPin);
+                                });
+                            }
+                        }
                         if (pin$.attr('id')) {
                             pins[pin$.attr('id')] = { pin: newPin, index: i };
                         } else {
@@ -131,7 +172,7 @@
                 });
 
             }
-			if (settings.centerPin){
+            if (settings.centerPin === true || (settings.centerPin === 'auto' && mapPins$.length === 0)){
                 var centrePin = placeIcon(map, mainGeo.latlng, '', settings);
             }
             
@@ -143,6 +184,8 @@
         });
     };
 
+    /** static functionality */
+    $.maps = $.maps || {};
     $.extend($.maps, {
         getMapDetails: function (mapid) { return maps[mapid]; },
 		placePin: function(mapid, lat, lng, pinClass){
@@ -154,7 +197,49 @@
         setCenter: function (mapid, lat, lon) {
             var latlng = new google.maps.LatLng(lat, lon);
             maps[mapid].map.panTo(latlng);
+        },
+        loadGMapsApi: function(gmapsUrl){
+            if (!loadingMapsApi && !mapsApiLoaded){
+                log('loading api: ' + gmapsUrl);
+                loadingMapsApi = true;
+                $.maps.googleCallback = function(){
+                    log('loaded api: ' + gmapsUrl);
+                    if($.maps.createV3Pin){
+                        $.maps.createV3Pin();
+                    }
+                    if($.maps.createV3InfoWindow){
+                        $.maps.createV3InfoWindow();
+                    }
+                    $.maps.mapsApiLoaded();
+                    mapsApiLoaded = true;
+                    loadingMapsApi = false;
+                };
+                loadMapsApiXHR = $.getScript(gmapsUrl);
+            }
+            return loadMapsApiXHR;
+        },
+        mapsApiLoaded: function(listener){
+            if (listener){
+                $($.maps).bind(ON_MAPS_API_LOADED, listener);
+            }else{
+                $($.maps).trigger(ON_MAPS_API_LOADED);
+            }
         }
     });
 
-})(window.jQuery, window.google);
+    /** the main plugin function */
+    $.fn.maps = function (options) {
+        var self = this,
+            settings = $.extend({}, DEFAULTS, options);
+        if (window.google && window.google.maps) {
+            initialiseMaps.call(self, settings);
+        }else{
+            $.maps.mapsApiLoaded(function(){
+                initialiseMaps.call(self, settings);            
+            });
+            $.maps.loadGMapsApi(settings.gmapsUrl);
+        }
+    };
+    
+
+}(window.jQuery));
