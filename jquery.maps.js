@@ -117,9 +117,7 @@
                 mapPinList$ = self.find(">.maps-pins"),
                 mapPins$ = mapPinList$.find(">li");
 
-            self.addClass("maps-applied")
-                .addClass("maps-loading");
-            $(mapHolder).addClass("maps-container-applied");
+            self.addClass("maps-loading");
 
             var mainGeo = getGeoMicroFormatValues(self.find('>.geo').get(0));
             var map = buildMap(mapHolder, mainGeo.latlng, mainGeo.zoom);
@@ -178,8 +176,10 @@
             
             attachExternalInteractions();
 
+            $(mapHolder).addClass("maps-container-applied");
             self.removeClass("maps-loading")
-                .addClass("maps-loaded");
+                .addClass("maps-loaded")
+                .addClass("maps-applied");
 
         });
     };
@@ -231,13 +231,15 @@
     $.fn.maps = function (options) {
         var self = this,
             settings = $.extend({}, DEFAULTS, options);
-        if (window.google && window.google.maps) {
-            initialiseMaps.call(self, settings);
-        }else{
-            $.maps.mapsApiLoaded(function(){
-                initialiseMaps.call(self, settings);            
-            });
-            $.maps.loadGMapsApi(settings.gmapsUrl);
+        if (this.length > 0) {
+            if (window.google && window.google.maps) {
+                initialiseMaps.call(self, settings);
+            }else{
+                $.maps.mapsApiLoaded(function(){
+                    initialiseMaps.call(self, settings);            
+                });
+                $.maps.loadGMapsApi(settings.gmapsUrl);
+            }
         }
     };
     
