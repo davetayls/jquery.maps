@@ -96,7 +96,11 @@
                 var map = maps[mapKey];
                 var pinDetails = map.pins[pinID];
                 if (pinDetails) {
-                    pinDetails.pin.centerOnMap();
+                    if (pinDetails.pin.centerOnMap){
+                        pinDetails.pin.centerOnMap();
+                    } else {
+                        map.map.panTo(pinDetails.pin.getPosition());
+                    }
                     if (pinDetails.pin.showInfoWindow) {
                         pinDetails.pin.showInfoWindow();
                     }
