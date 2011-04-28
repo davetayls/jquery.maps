@@ -45,7 +45,8 @@
         loadMapsApiXHR,
         loadingMapsApi = false,
         mapsApiLoaded = false,
-        ON_MAPS_API_LOADED = 'onMapsApiLoaded';
+        ON_MAPS_API_LOADED = 'onMapsApiLoaded',
+        ON_PIN_CENTERED = 'onPinCentered';
 
     var log = function(){
         if (typeof console !== 'undefined'){
@@ -104,6 +105,7 @@
                     if (pinDetails.pin.showInfoWindow) {
                         pinDetails.pin.showInfoWindow();
                     }
+                    $.maps.pinCentered(map, pinDetails);
                     return false;
                 }
             }
@@ -123,13 +125,12 @@
 
             self.addClass("maps-loading");
 
-            var mainGeo = getGeoMicroFormatValues(self.find('>.geo').get(0));
-            var map = buildMap(mapHolder, mainGeo.latlng, mainGeo.zoom);
+            var mainGeo = getGeoMicroFormatValues(self.find('>.geo').get(0)),
+                map = buildMap(mapHolder, mainGeo.latlng, mainGeo.zoom);
 
-            var pins = {};
-            if (self.attr('id')) {
-                maps[self.attr('id')] = { 'map': map, 'pins': pins, 'settings': settings };
-            }
+            var mapKey = self.attr('id') || 'mapinstance-' + (Math.floor((Math.random() * 1000)) + 100),
+                pins = {};
+            maps[mapKey] = { 'map': map, 'pins': pins, 'settings': settings };
 
             if (mapPins$.length > 0) {
                 // get pins
@@ -227,6 +228,13 @@
                 $($.maps).bind(ON_MAPS_API_LOADED, listener);
             }else{
                 $($.maps).trigger(ON_MAPS_API_LOADED);
+            }
+        },
+        pinCentered: function(listener){
+            if (listener){
+                $($.maps).bind(ON_PIN_CENTERED, listener);
+            }else{
+                $($.maps).trigger(ON_PIN_CENTERED, arguments);
             }
         }
     });

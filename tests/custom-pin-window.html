@@ -7,8 +7,7 @@
   <!-- CSS: implied media="all" -->
   <link rel="stylesheet" href="../jquery.maps.css">
     <style>
-        #map.maps-applied,
-        #map2.maps-applied {
+        .maps-applied {
             height: 300px;
         }
     </style>
@@ -21,6 +20,10 @@
       <li><a href="#map2pin1">Map 2 pin 1</a></li>
       <li><a href="#map2pin2">Map 2 pin 2</a></li>
       <li><a href="#map2pin3">Map 2 pin 3</a></li>
+
+      <li><a href="#map3pin1">Map 3 pin 1</a></li>
+      <li><a href="#map3pin2">Map 3 pin 2</a></li>
+      <li><a href="#map3pin3">Map 3 pin 3</a></li>
     </ul>
     <h2>Map without pins</h2>
 	<div id="map" style="border: solid 1px #ccc; width: 500px;">
@@ -66,7 +69,38 @@
         <div id="map2-skip"></div>
 	</div>
 
-  <!-- JavaScript at the bottom for fast page loading -->
+    <h2>Map with no id and has pins</h2>
+	<div class="mapNoId" style="border: solid 1px #ccc; width: 500px;">
+        <h2 class="maps-title">Map Details: <a href="#map3-skip">skip</a></h2>
+        <div class="geo">Location Name: 
+			<span class="latitude">13.251</span>, <span class="longitude">123.684</span>.
+			Zoom: <span class="zoom">10</span>
+		</div>
+        <div class="maps-container">
+        	<div class="maps-container-loading"></div>
+		</div>
+        <ul class="maps-pins">
+            <li id="map3pin1">
+                <div class="geo">Location Name: <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.</div>
+                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.251,123.684">View this pin on a map</a>
+                <h3>Map Pin Information</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
+            </li>
+            <li id="map3pin2">
+                <div class="geo visuallyhidden">Location Name: <span class="latitude">13.373</span>, <span class="longitude">123.807</span>.</div>
+                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.373,123.807">View this pin on a map</a>
+                <h3>Map Pin Information</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
+            </li>
+            <li id="map3pin3" class="maps-pinTshield">
+                <div class="geo">Location Name: <span class="latitude">13.150</span>, <span class="longitude">123.739</span>.</div>
+                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.150,123.739">View this pin on a map</a>
+            </li>
+        </ul>
+        <div id="map3-skip"></div>
+	</div>
+
+    <!-- JavaScript at the bottom for fast page loading -->
 
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>
@@ -81,6 +115,10 @@
             customWindows:true
         });
         $('#map2').maps({
+            customPins:true, 
+            customWindows:true
+        });
+        $('.mapNoId').maps({
             customPins:true, 
             customWindows:true
         });
