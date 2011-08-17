@@ -1,15 +1,14 @@
 /**
- * jQuery Maps v0.1 - http://the-taylors.org/jquery.maps
+ * jQuery Maps v0.2 - http://the-taylors.org/jquery.maps
  * Requires jQuery 1.4.2
  *
  * Created by Dave Taylor http://the-taylors.org
  *
- * Copyright Software Freedom Conservancy, Inc.
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
+ *  The MIT License (MIT)
+ *  Copyright (c) <2011> <Dave Taylor http://the-taylors.org>
  */
-/*globalconsole window google */
-/*jslint forin:true onevar:false strict:true */
+/*jslint browser: true, vars: true, white: true, forin: true, indent: 4 */
+/*global google */
 (function ($) {
     "use strict";
 
@@ -29,8 +28,8 @@
         ON_PIN_CENTERED = 'onPinCentered';
 
     var log = function () {
-        if (typeof console !== 'undefined') {
-            console.log(arguments);
+        if (typeof window.console !== 'undefined') {
+            window.console.log(arguments);
         }
     };
 

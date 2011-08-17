@@ -1,96 +1,232 @@
-<!doctype html>
-<html class="no-js" lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>jquery.maps demo</title>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>jQuery.maps: inserting google maps from markup</title>
+        <meta name="viewport" content="width=550" />
 
-  <!-- CSS: implied media="all" -->
-  <link rel="stylesheet" href="jquery.maps.css">
-    <style>
-        #map.maps-applied,
-        #map2.maps-applied {
-            height: 300px;
-        }
-    </style>
-</head>
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/themes/base/jquery-ui.css">
+        <style>
+            .ui-tabs-panel {
+                height: auto;
+                visibility: visible;
+            }
+            .ui-tabs .ui-tabs-hide {
+            	display: block !important;
+                position: absolute !important;
+                left: -10000px !important;
+                top:  -1000000px !important;
+                visibility: hidden !important;
+            }
 
-<body>
-    <h1>jQuery Maps Demo</h1>
-    <h2>Links to center on pins</h2>
-    <ul>
-      <li><a href="#map2pin1">Map 2 pin 1</a></li>
-      <li><a href="#map2pin2">Map 2 pin 2</a></li>
-      <li><a href="#map2pin3">Map 2 pin 3</a></li>
-    </ul>
-    <h2>Map without pins</h2>
-	<div id="map" style="border: solid 1px #ccc; width: 500px;">
-        <h2 class="maps-title">Map Details: <a href="#map-skip">skip</a></h2>
-        <div class="geo">Location Name: 
-			<span class="latitude">13.251</span>, <span class="longitude">123.684</span>.
-			Zoom: <span class="zoom">12</span>
-		</div>
-        <div class="maps-container">
-        	<div class="maps-container-loading"></div>
-		</div>
-        <div id="map-skip"></div>
-	</div>
-	
-    <h2>Map with pins</h2>
-	<div id="map2" style="border: solid 1px #ccc; width: 500px;">
-        <h2 class="maps-title">Map Details: <a href="#map-skip">skip</a></h2>
-        <div class="geo">
-            Location Name: 
-			<span class="latitude">13.251</span>, <span class="longitude">123.684</span>.
-			Zoom: <span class="zoom">10</span>
-		</div>
-        <div class="maps-container">
-        	<div class="maps-container-loading"></div>
-		</div>
-        <ul class="maps-pins">
-            <li id="map2pin1">
-                <div class="geo">Location Name: <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.</div>
-                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.251,123.684">View this pin on a map</a>
-                <h3>Map Pin Information</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
-            </li>
-            <li id="map2pin2">
-                <div class="geo visuallyhidden">Location Name: <span class="latitude">13.373</span>, <span class="longitude">123.807</span>.</div>
-                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.373,123.807">View this pin on a map</a>
-                <h3>Map Pin Information</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
-            </li>
-            <li id="map2pin3">
-                <div class="geo">Location Name: <span class="latitude">13.150</span>, <span class="longitude">123.739</span>.</div>
-                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.150,123.739">View this pin on a map</a>
-            </li>
-        </ul>
-        <div id="map-skip"></div>
-	</div>
+            #map.maps-applied,
+            .maps-applied,
+            #map2.maps-applied {
+                height: 300px;
+                border: solid 1px #ccc; 
+                width: 635px;
+            }
+        </style>
 
-  <!-- JavaScript at the bottom for fast page loading -->
+        <script src="http://code.jquery.com/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
 
-  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>
+        <!-- jquery.maps dependencies -->
+        <link rel="stylesheet" href="jquery.maps.css">
+        <script src="maps-v3infoWindow.js"></script>
+        <script src="maps-v3pin.js"></script>
+        <script src="jquery.maps.js" type="text/javascript" charset="utf-8"></script>
 
-  <!-- Google Maps API -->
-  <!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&region=GB"></script>-->
+        <!-- initialising -->
+        <script>
+            $(function(){
+                // initialise maps
+                $('#map').maps();
+                $('#map2').maps();
+                $('.custompins').maps({
+                    customPins:true, 
+                    customWindows:true
+                });
 
-  <!-- scripts concatenated and minified via ant build script-->
-  <!--<script src="maps-v3infoWindow.js"></script>
-  <script src="maps-v3pin.js"></script>-->
-  <script src="jquery.maps.js"></script>
-  <script>
-		$('#map').maps();
-        $('#map2').maps();
-  </script>
-  <!-- end scripts-->
 
-  <script>
-    var _gaq=[['_setAccount','UA-4421586-2'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));
-  </script>
+                // initialise ui
+                $('.nav-tabs').tabs();
+            });
+        </script>
 
-</body>
+        <style type="text/css">
+            #wrapper {
+                border: solid 1px #000;
+                height: 200px;
+                width: 700px;
+                overflow: hidden;
+            }
+            #inner {
+                border: solid 1px red;
+                width: 2000px;
+            }
+            #left, #right { cursor: pointer; }
+
+            body {
+                margin-top: 1.0em;
+                background-color: #ffffff;
+                font-family: Helvetica, Arial, FreeSans, san-serif;
+                color: #000000;
+            }
+            #container {
+                margin: 0 auto;
+                width: 700px;
+            }
+            h1 { font-size: 3.8em; color: #000000; margin-bottom: 3px; }
+            h1 .small { font-size: 0.4em; }
+            h1 a { text-decoration: none }
+            h2 { font-size: 1.5em; color: #000000; }
+            h3 { text-align: center; color: #000000; }
+
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <h1>jQuery.maps: inserting Google Maps from markup</h1>
+            <a href="http://github.com/davetayls/jquery.maps"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+            <p>jQuery.maps is an accessible way to implement Google maps using markup</p>
+            <div class="addthis_toolbox addthis_default_style ">
+                <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+                <a class="addthis_button_tweet"></a>
+                <a class="addthis_button_twitter_follow_native" tf:screen_name="davetayls"></a>
+            </div>
+            <div class="download">
+                <a href="http://github.com/davetayls/jquery.maps/zipball/master">
+                    <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+                <a href="http://github.com/davetayls/jquery.maps/tarball/master">
+                    <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+            </div>
+
+            <div class="nav-tabs">
+                <ul class="nav-tabs-nav">
+                    <li> <a href="#nopins">without pins</a> </li>
+                    <li> <a href="#basicpins">basic pins</a> </li>
+                    <li> <a href="#custompins">custom pins</a> </li>
+                </ul>
+                <div id="nopins" class="nav-tab">
+                    <div id="map">
+                        <h2 class="maps-title">Map Details: <a href="#map-skip">skip</a></h2>
+                        <div class="geo">Location Name: 
+                            <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.
+                            Zoom: <span class="zoom">12</span>
+                        </div>
+                        <div class="maps-container">
+                            <div class="maps-container-loading"></div>
+                        </div>
+                        <div id="map-skip"></div>
+                    </div>
+                </div>
+                <div id="basicpins" class="nav-tab">
+                    <h2>Links to center on pins</h2>
+                    <ul>
+                        <li><a href="#map2pin1">Map 2 pin 1</a></li>
+                        <li><a href="#map2pin2">Map 2 pin 2</a></li>
+                        <li><a href="#map2pin3">Map 2 pin 3</a></li>
+                    </ul>
+                    <div id="map2">
+                        <h2 class="maps-title">Map Details: <a href="#map-skip">skip</a></h2>
+                        <div class="geo">
+                            Location Name: 
+                            <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.
+                            Zoom: <span class="zoom">10</span>
+                        </div>
+                        <div class="maps-container">
+                            <div class="maps-container-loading"></div>
+                        </div>
+                        <ul class="maps-pins">
+                            <li id="map2pin1">
+                            <div class="geo">Location Name: <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.</div>
+                            <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.251,123.684">View this pin on a map</a>
+                            <h3>Map Pin Information</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
+                            </li>
+                            <li id="map2pin2">
+                            <div class="geo visuallyhidden">Location Name: <span class="latitude">13.373</span>, <span class="longitude">123.807</span>.</div>
+                            <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.373,123.807">View this pin on a map</a>
+                            <h3>Map Pin Information</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
+                            </li>
+                            <li id="map2pin3">
+                            <div class="geo">Location Name: <span class="latitude">13.150</span>, <span class="longitude">123.739</span>.</div>
+                            <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.150,123.739">View this pin on a map</a>
+                            </li>
+                        </ul>
+                        <div id="map-skip"></div>
+                    </div>
+                </div>
+                <div id="custompins" class="nav-tab">
+                    <h2>Map with no id and has pins</h2>
+                    <div class="custompins">
+                        <h2 class="maps-title">Map Details: <a href="#map3-skip">skip</a></h2>
+                        <div class="geo">Location Name: 
+                            <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.
+                            Zoom: <span class="zoom">10</span>
+                        </div>
+                        <div class="maps-container">
+                            <div class="maps-container-loading"></div>
+                        </div>
+                        <ul class="maps-pins">
+                            <li id="map3pin1">
+                                <div class="geo">Location Name: <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.</div>
+                                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.251,123.684">View this pin on a map</a>
+                                <h3>Map Pin Information</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
+                            </li>
+                            <li id="map3pin2">
+                                <div class="geo visuallyhidden">Location Name: <span class="latitude">13.373</span>, <span class="longitude">123.807</span>.</div>
+                                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.373,123.807">View this pin on a map</a>
+                                <h3>Map Pin Information</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
+                            </li>
+                            <li id="map3pin3" class="maps-pinTshield">
+                                <div class="geo">Location Name: <span class="latitude">13.150</span>, <span class="longitude">123.739</span>.</div>
+                                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.150,123.739">View this pin on a map</a>
+                            </li>
+                        </ul>
+                        <div id="map3-skip"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'davetayls'; // required: replace example with your forum shortname
+
+                // The following are highly recommended additional parameters. Remove the slashes in front to use.
+                // var disqus_identifier = 'unique_dynamic_id_1234';
+                var disqus_url = 'http://the-taylors.org/jquery.maps/';
+
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                 dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                 })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-4421586-2']);
+                _gaq.push(['_trackPageview']);
+
+                (function() {
+                 var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                 ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                 })();
+            </script>
+        </div>
+        <!-- sharing -->
+        <script type="text/javascript" src="http://platform.linkedin.com/in.js"></script>
+        <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=davetayls"></script>
+    </body>
 </html>
+
