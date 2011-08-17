@@ -11,7 +11,7 @@
                 visibility: visible;
             }
             .ui-tabs .ui-tabs-hide {
-            	display: block !important;
+                display: block !important;
                 position: absolute !important;
                 left: -10000px !important;
                 top:  -1000000px !important;
@@ -39,17 +39,14 @@
         <!-- initialising -->
         <script>
             $(function(){
-                // initialise maps
-                $('#map').maps();
-                $('#map2').maps();
-                $('.custompins').maps({
-                    customPins:true, 
-                    customWindows:true
-                });
+                    // initialise maps
+                    $('#map').maps();
+                    $('#map2').maps();
+                    $('.custompins').maps({ customPins:true, customWindows:true });
 
 
-                // initialise ui
-                $('.nav-tabs').tabs();
+                    // initialise ui
+                    $('.nav-tabs').tabs();
             });
         </script>
 
@@ -82,13 +79,25 @@
             h2 { font-size: 1.5em; color: #000000; }
             h3 { text-align: center; color: #000000; }
 
+            pre code {
+                color: #eee;
+                display: block;
+                background: #333;
+                overflow: auto;
+                padding: 10px;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                font-size: 0.9em;
+            }
+
         </style>
     </head>
     <body>
         <div id="container">
             <h1>jQuery.maps: inserting Google Maps from markup</h1>
             <a href="http://github.com/davetayls/jquery.maps"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-            <p>jQuery.maps is an accessible way to implement Google maps using markup</p>
+            <p>jQuery.maps is an accessible way to implement Google maps using markup. You don't even have to load Google Maps api.</p>
             <div class="addthis_toolbox addthis_default_style ">
                 <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
                 <a class="addthis_button_tweet"></a>
@@ -119,10 +128,27 @@
                         </div>
                         <div id="map-skip"></div>
                     </div>
+                    <pre><code>
+&lt;div id="map"&gt;
+    &lt;h2 class="maps-title"&gt;Map Details: &lt;a href="#map-skip"&gt;skip&lt;/a&gt;&lt;/h2&gt;
+    &lt;div class="geo"&gt;Location Name: 
+        &lt;span class="latitude"&gt;13.251&lt;/span&gt;, 
+        &lt;span class="longitude"&gt;123.684&lt;/span&gt;.
+        Zoom: &lt;span class="zoom"&gt;12&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="maps-container"&gt;
+        &lt;div class="maps-container-loading"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id="map-skip"&gt;&lt;/div&gt;
+&lt;/div&gt;
+                    </code></pre>
                 </div>
                 <div id="basicpins" class="nav-tab">
                     <h2>Links to center on pins</h2>
-                    <ul>
+                    <p>To link to a pin all you need to do is give the pin
+                        <code>li</code> an id and link to the anchor eg
+                        <code>href="#map2pin1"</code></p>
+                    <ul class="pinLinks">
                         <li><a href="#map2pin1">Map 2 pin 1</a></li>
                         <li><a href="#map2pin2">Map 2 pin 2</a></li>
                         <li><a href="#map2pin3">Map 2 pin 3</a></li>
@@ -139,24 +165,57 @@
                         </div>
                         <ul class="maps-pins">
                             <li id="map2pin1">
-                            <div class="geo">Location Name: <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.</div>
-                            <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.251,123.684">View this pin on a map</a>
-                            <h3>Map Pin Information</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
+                                <div class="geo">Location Name: <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.</div>
+                                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.251,123.684">View this pin on a map</a>
+                                <h3>Map Pin Information</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
                             </li>
                             <li id="map2pin2">
-                            <div class="geo visuallyhidden">Location Name: <span class="latitude">13.373</span>, <span class="longitude">123.807</span>.</div>
-                            <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.373,123.807">View this pin on a map</a>
-                            <h3>Map Pin Information</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
+                                <div class="geo visuallyhidden">Location Name: <span class="latitude">13.373</span>, <span class="longitude">123.807</span>.</div>
+                                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.373,123.807">View this pin on a map</a>
+                                <h3>Map Pin Information</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget</p>
                             </li>
                             <li id="map2pin3">
-                            <div class="geo">Location Name: <span class="latitude">13.150</span>, <span class="longitude">123.739</span>.</div>
-                            <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.150,123.739">View this pin on a map</a>
+                                <div class="geo">Location Name: <span class="latitude">13.150</span>, <span class="longitude">123.739</span>.</div>
+                                <a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.150,123.739">View this pin on a map</a>
                             </li>
                         </ul>
                         <div id="map-skip"></div>
                     </div>
+                    <pre><code>
+&lt;div id="map2"&gt;
+    &lt;h2 class="maps-title"&gt;Map Details: &lt;a href="#map-skip"&gt;skip&lt;/a&gt;&lt;/h2&gt;
+    &lt;div class="geo"&gt;
+        Location Name: 
+        &lt;span class="latitude"&gt;13.251&lt;/span&gt;, 
+        &lt;span class="longitude"&gt;123.684&lt;/span&gt;.
+        Zoom: &lt;span class="zoom"&gt;10&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="maps-container"&gt;
+        &lt;div class="maps-container-loading"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;ul class="maps-pins"&gt;
+        &lt;li id="map2pin1"&gt;
+            &lt;div class="geo"&gt;Location Name: &lt;span class="latitude"&gt;13.251&lt;/span&gt;, &lt;span class="longitude"&gt;123.684&lt;/span&gt;.&lt;/div&gt;
+            &lt;a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.251,123.684"&gt;View this pin on a map&lt;/a&gt;
+            &lt;h3&gt;Map Pin Information&lt;/h3&gt;
+            &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget&lt;/p&gt;
+        &lt;/li&gt;
+        &lt;li id="map2pin2"&gt;
+            &lt;div class="geo visuallyhidden"&gt;Location Name: &lt;span class="latitude"&gt;13.373&lt;/span&gt;, &lt;span class="longitude"&gt;123.807&lt;/span&gt;.&lt;/div&gt;
+            &lt;a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.373,123.807"&gt;View this pin on a map&lt;/a&gt;
+            &lt;h3&gt;Map Pin Information&lt;/h3&gt;
+            &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis nibh ornare risus sollicitudin lobortis. Nam facilisis luctus consequat. Fusce rutrum, nisl eget&lt;/p&gt;
+        &lt;/li&gt;
+        &lt;li id="map2pin3"&gt;
+            &lt;div class="geo"&gt;Location Name: &lt;span class="latitude"&gt;13.150&lt;/span&gt;, &lt;span class="longitude"&gt;123.739&lt;/span&gt;.&lt;/div&gt;
+            &lt;a target="_blank" class="maps-pinLink" href="http://maps.google.co.uk/maps?q=13.150,123.739"&gt;View this pin on a map&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div id="map-skip"&gt;&lt;/div&gt;
+&lt;/div&gt;
+                        </code></pre>
                 </div>
                 <div id="custompins" class="nav-tab">
                     <h2>Map with no id and has pins</h2>
