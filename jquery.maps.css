@@ -1,0 +1,284 @@
+/*
+    jQuery Maps
+------------------------------------------------*/
+/*.map { display: block; position: relative; }*/
+div.maps-applied { display: block; position: relative; }
+
+/* hide non-visual elements */
+div.maps-applied .maps-title,
+div.maps-applied .geo { position:absolute; display: block; top: auto; left: -10000px; width: 1px; height: 1px; }
+
+.maps-staticLink {
+    display: block;
+    padding: 3px 5px;
+
+}
+
+
+    .maps-container-applied {
+        height: 100%;
+    }
+    .maps-pins {
+        margin: 0;
+        padding: 0;        
+    }
+    div.maps-applied .maps-pins {
+        display: none;
+    }
+        .maps-pins li {
+            background: #eee;
+            display: block;
+            list-style: none none;
+            margin: 5px 0;
+            padding: 5px;
+        }
+            .maps-pinNum {
+                background: #B21226;
+                color:#FFFFFF;
+                float: right;
+                font-weight:bold;
+                height:16px;
+                padding:5px;
+                text-align:center;
+            }
+            .maps-pinLink {
+                display: block;
+                text-align: right;
+            }
+
+/*
+    pin styling 
+--------------------------------------------------------------*/
+.maps-pin {
+    height: 0px;
+    position: absolute;
+    width: 0px;
+	z-index:1;
+}
+    .maps-pin-inner {
+        -moz-background-size:auto auto;
+        background-image:url("images/map-markers.png");
+        background-position: 0 0;
+        background-repeat:no-repeat;
+        bottom: 0;
+        cursor:pointer;
+        left: -5px;
+        position:absolute;
+        top: -14px;
+        height: 16px;
+        width: 10px;
+        z-index:200;
+    }
+        .maps-pin-contents {
+            background: #fff;
+            bottom: 19px;
+            font-size:11px;
+            font-weight:bold;
+            left: -2px;
+            position:absolute;
+            text-align:center;
+            width: 13px;
+        }
+
+	.maps-pinTshield .maps-pin-inner {
+        background-position: -10px 0;
+        height: 16px;
+        width: 16px;
+	}
+        .maps-pinTshield .maps-pin-contents {
+            background: transparent;
+            text-shadow: 0 1px 1px #222;
+            color: #fff;
+            top: 1px;
+            bottom: 0;
+            left: 1px;
+            right: 0;
+        }
+
+/* 
+    info window styling
+--------------------------------------------------------*/
+.maps-infoWindow {
+    width: 1px;
+    height: 1px;
+}
+.maps-infoWindow-inner {
+    bottom: 60px;
+    left: -84px;
+    position: absolute;
+    width: 168px;
+    z-index: 1;
+    zoom: 1;
+}
+    .maps-infoWindow_contents {
+        background-color: #fff;
+        margin: 0;
+        padding: 5px 20px 5px 5px;
+    }
+    
+    .maps-infoWindow_contents a {
+            color: #2e3d58 !important;
+            text-decoration:underline;
+            font-weight:bold;
+    }
+    
+        .maps-infoWindow_contents * {
+            color: #2e3d58;
+        }
+
+    .maps-infoWindow_tl {
+      left: -16px;
+      position: absolute;
+      top: -16px;
+      width: 16px;
+      height: 16px;
+      background: url('images/map-bubble-tl.png') top left no-repeat transparent;
+    }
+    * html .maps-infoWindow_tl {
+      background-image:none;
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map-bubble-tl.png', sizingMethod='crop');
+    }
+    .maps-infoWindow_t {
+      background: url('images/map-bubble-t.png') top left repeat-x transparent;
+      height: 16px;
+      position: absolute;
+      left: 0;
+      top: -16px;
+      width: 100%;
+    }
+    .maps-infoWindow_tr {
+      position: absolute;
+      right: -16px;
+      top: -16px;
+      width: 16px;
+      height: 16px;
+      background: url('images/map-bubble-tr.png') top left no-repeat transparent;
+    }
+    * html .maps-infoWindow_tr {
+      background-image:none;
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map-bubble-tr.png', sizingMethod='crop');
+    }
+    .maps-infoWindow_l {
+      height: 100%;
+      left: -16px;
+      position: absolute;
+      top: 0;
+      width: 16px;
+      background: url('images/map-bubble-l.png') top left repeat-y transparent;
+    }
+    .maps-infoWindow_r {
+      height: 100%;
+      right: -16px;
+      position: absolute;
+      top: 0;
+      width: 16px;
+      background: url('images/map-bubble-r.png') top right repeat-y transparent;
+    }
+    .maps-infoWindow_bl {
+      position: absolute;
+      bottom: -16px;
+      left: -16px;
+      width: 16px;
+      height: 16px;
+      background: url('images/map-bubble-bl.png') top left no-repeat transparent;
+    }
+    * html .maps-infoWindow_bl {
+      background-image:none;
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map-bubble-bl.png', sizingMethod='crop');
+    }
+    .maps-infoWindow_b {
+      background: url('images/map-bubble-b.png') top left repeat-x transparent;
+      height: 16px;
+      left: 0;
+      position: absolute;
+      bottom: -16px;
+      width: 100%
+    }
+    .maps-infoWindow_br {
+      position: absolute;
+      bottom: -16px;
+      right: -16px;
+      width: 16px;
+      height: 16px;
+      background: url('images/map-bubble-br.png') top left no-repeat transparent;
+    }
+    * html .maps-infoWindow_br {
+      background-image:none;
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map-bubble-br.png', sizingMethod='crop');
+    }
+    .maps-infoWindow_close {
+        background: url('images/sprites-h.png') no-repeat transparent -25px -50px;
+        cursor: pointer;
+        height: 9px;
+        margin: 4px 0 0 -7px;
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        width: 5px;
+    }
+    .maps-infoWindow_max {
+      width: 21px;
+      height: 21px;
+      background: url('images/corners/red_max.png') top left no-repeat transparent;
+      cursor: pointer;
+    }
+    * html .maps-infoWindow_max {
+      background-image:none;
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corners/red_max.png', sizingMethod='crop');
+    }
+    .maps-infoWindow_min {
+      width: 21px;
+      height: 21px;
+      background: url('images/corners/red_min.png') top left no-repeat transparent;
+      cursor: pointer;
+    }
+    * html .maps-infoWindow_min {
+      background-image:none;
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corners/red_min.png', sizingMethod='crop');
+    }
+    .maps-infoWindow_beak {
+      bottom: 28px;
+      left: -14px;
+      position: absolute;
+      width: 29px;
+      height: 26px;
+      background: url('images/map-bubble-beak.png') top left no-repeat transparent;
+      z-index: 5;
+    }
+    * html .maps-infoWindow_beak {
+      background-image:none;
+      filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map-bubble-beak.png', sizingMethod='crop');
+    }
+    
+
+
+/* Fix to stop the Google copyright notice from extending out of the map area -
+it overwrites the inline HTML style, which is set to white-space: nowrap;*/       
+    .maps-applied[style]{
+     font-size: inherit !important;
+     white-space: inherit !important;
+    }
+    .maps-applied[style]{
+     white-space: inherit !important;
+    }
+    .maps-applied a[style]{
+     color: inherit !important;
+    }
+    .maps-applied span { white-space: normal; }
+    
+
+/* Fix to stop the Google copyright notice from extending out of the map area -
+it overwrites the inline HTML style, which is set to white-space: nowrap;*/    
+    .maps-applied[style]{
+     font-size: inherit !important;
+     white-space: inherit !important;
+    }
+    .maps-applied[style]{
+     white-space: inherit !important;
+    }
+    .maps-applied a[style]{
+     color: inherit !important;
+    }
+    .maps-applied span { white-space: normal; }
+
+
