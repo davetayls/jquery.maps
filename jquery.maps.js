@@ -1,5 +1,5 @@
 /**
- * jQuery Maps v0.2 - http://the-taylors.org/jquery.maps
+ * jQuery Maps v0.3 - http://the-taylors.org/jquery.maps
  * Requires jQuery 1.4.2
  *
  * Created by Dave Taylor http://the-taylors.org
@@ -15,15 +15,19 @@
     var maps = {},
         infoWindow,
         maxNumberedPin = 100,
+        loadMapsApiXHR,
+        loadingMapsApi = false,
+        mapsApiLoaded = false,
+
 		DEFAULTS = {
 		    gmapsUrl: 'http://maps.google.com/maps/api/js?sensor=false&async=2&callback=jQuery.maps.googleCallback',
 		    centerPin: 'auto',
 		    customPins: false,
-		    customWindows: false
+		    customWindows: false,
+		    initialised: null, // listener for when the map is ready
+		    initialisedAll: null // listener for when all maps are ready
 		},
-        loadMapsApiXHR,
-        loadingMapsApi = false,
-        mapsApiLoaded = false,
+        DATA_KEY = 'maps',
         ON_MAPS_API_LOADED = 'onMapsApiLoaded',
         ON_PIN_CENTERED = 'onPinCentered';
 
@@ -120,6 +124,7 @@
             var mapKey = self.attr('id') || 'mapinstance-' + (Math.floor((Math.random() * 1000)) + 100),
                 pins = {};
             maps[mapKey] = { 'map': map, 'pins': pins, '$holder': self, 'settings': settings };
+            self.data(DATA_KEY, maps[mapKey]);
 
             if (mapPins$.length > 0) {
                 // get pins
@@ -174,12 +179,21 @@
                 .addClass("maps-loaded")
                 .addClass("maps-applied");
 
+            // trigger event for each map
+            if (typeof settings.initialised === 'function') {
+                settings.initialised.call(self,  maps[mapKey]);
+            }
         });
+        // all maps are ready
+        if (typeof settings.initialisedAll === 'function') {
+            settings.initialisedAll.call(this);
+        }
     };
 
     /** static functionality */
     $.maps = $.maps || {};
     $.extend($.maps, {
+        DATA_KEY: DATA_KEY,
         getMapDetails: function (mapid) { return maps[mapid]; },
         placePin: function (mapid, lat, lng, pinClass) {
             var mapDet = this.getMapDetails(mapid),
