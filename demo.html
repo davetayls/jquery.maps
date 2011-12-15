@@ -3,8 +3,7 @@
     <head>
         <title>jQuery.maps: inserting google maps from markup</title>
         <meta name="viewport" content="width=550" />
-
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="lib/jquery-ui/themes/ui-lightness/jquery-ui-1.8.16.custom.css">
         <style>
             .ui-tabs-panel {
                 height: auto;
@@ -27,8 +26,8 @@
             }
         </style>
 
-        <script src="http://code.jquery.com/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="lib/jquery-1.5.1.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="lib/jquery-ui/jquery-ui-1.8.16.custom.min.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- jquery.maps dependencies -->
         <link rel="stylesheet" href="jquery.maps.css">
@@ -107,19 +106,30 @@
                     <li> <a href="#basicpins">basic pins</a> </li>
                     <li> <a href="#custompins">custom pins</a> </li>
                 </ul>
+
+
+
+                <!-- BASIC MAP -->
                 <div id="nopins" class="nav-tab">
-                    <div id="map">
-                        <h2 class="maps-title">Map Details: <a href="#map-skip">skip</a></h2>
-                        <div class="geo">Location Name: 
-                            <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.
+                    <div id="map" class="maps-applied">
+                        <h2 class="maps-title">
+                            Mayon Volcano: <a href="#map-skip">skip</a>
+                        </h2>
+                        <div class="geo">
+                            <span class="latitude">13.251</span>, 
+                            <span class="longitude">123.684</span>.
                             Zoom: <span class="zoom">12</span>
-                        </div>
-                        <div class="maps-container">
-                            <div class="maps-container-loading"></div>
                         </div>
                         <div id="map-skip"></div>
                     </div>
                 </div>
+
+
+
+
+
+
+                <!-- BASIC MAP WITH MORE THAN 1 PIN -->
                 <div id="basicpins" class="nav-tab">
                     <h2>Links to center on pins</h2>
                     <ul>
@@ -134,9 +144,7 @@
                             <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.
                             Zoom: <span class="zoom">10</span>
                         </div>
-                        <div class="maps-container">
-                            <div class="maps-container-loading"></div>
-                        </div>
+                        <div class="maps-container"></div>
                         <ul class="maps-pins">
                             <li id="map2pin1">
                             <div class="geo">Location Name: <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.</div>
@@ -165,9 +173,6 @@
                         <div class="geo">Location Name: 
                             <span class="latitude">13.251</span>, <span class="longitude">123.684</span>.
                             Zoom: <span class="zoom">10</span>
-                        </div>
-                        <div class="maps-container">
-                            <div class="maps-container-loading"></div>
                         </div>
                         <ul class="maps-pins">
                             <li id="map3pin1">

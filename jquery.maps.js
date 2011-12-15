@@ -61,20 +61,20 @@
     };
 
     var getGeoMicroFormatValues = function (geo) {
-        var geo$ = $(geo);
+        var $geo = $(geo);
         var values = {};
-        values.lat = geo$.find(">.latitude").text();
-        values.lng = geo$.find(">.longitude").text();
-        values.zoom = parseInt(geo$.find(">.zoom").text(), 10);
+        values.lat = $geo.find(">.latitude").text();
+        values.lng = $geo.find(">.longitude").text();
+        values.zoom = parseInt($geo.find(">.zoom").text(), 10);
         values.latlng = new google.maps.LatLng(values.lat, values.lng);
         return values;
     };
 
     var attachExternalInteractions = function () {
         $('body').delegate("a[href^='#']", 'click', function (ev) {
-            var this$ = $(this),
+            var $this = $(this),
                 mapKey,
-                pinID = this$.attr('href').replace('#', '');
+                pinID = $this.attr('href').replace('#', '');
 
             for (mapKey in maps) {
                 var map = maps[mapKey];
@@ -111,39 +111,46 @@
     */
     var initialiseMaps = function (settings) {
         this.each(function () {
-            var self = $(this),
-                mapHolder = self.find("> .maps-container").get(0),
-                mapPinList$ = self.find(">.maps-pins"),
-                mapPins$ = mapPinList$.find(">li");
+            var $this = $(this),
+                $geo = $this.find('>.geo'),
+                $mapHolder = $this.find("> .maps-container"),
+                mapHolder,
+                $mapPinList = $this.find(">.maps-pins"),
+                $mapPins = $mapPinList.find(">li");
 
-            self.addClass("maps-loading");
+            if (!$mapHolder.length) {
+                $mapHolder = $('<div class="maps-container"></div>');
+                $geo.after($mapHolder);
+            }
+            mapHolder = $mapHolder[0];
+            $mapHolder.html('<div class="maps-container-loading"></div>');
+            $this.addClass("maps-loading");
 
-            var mainGeo = getGeoMicroFormatValues(self.find('>.geo').get(0)),
+            var mainGeo = getGeoMicroFormatValues($geo[0]),
                 map = buildMap(mapHolder, mainGeo.latlng, mainGeo.zoom);
 
-            var mapKey = self.attr('id') || 'mapinstance-' + (Math.floor((Math.random() * 1000)) + 100),
+            var mapKey = $this.attr('id') || 'mapinstance-' + (Math.floor((Math.random() * 1000)) + 100),
                 pins = {};
-            maps[mapKey] = { 'map': map, 'pins': pins, '$holder': self, 'settings': settings };
-            self.data(DATA_KEY, maps[mapKey]);
+            maps[mapKey] = { 'map': map, 'pins': pins, '$holder': $this, 'settings': settings };
 
-            if (mapPins$.length > 0) {
+            if ($mapPins.length > 0) {
                 // get pins
-                mapPins$.each(function (i) {
-                    var pin$ = $(this),
+                $mapPins.each(function (i) {
+                    var $pin = $(this),
                         pinGeo,
                         newPin,
                         newInfoWindow,
                         windowContents;
 
-                    pin$.find(".maps-pinLink").remove();
-                    pinGeo = getGeoMicroFormatValues(pin$.find('>.geo').get(0));
+                    $pin.find(".maps-pinLink").remove();
+                    pinGeo = getGeoMicroFormatValues($pin.find('>.geo').get(0));
                     if (pinGeo) {
-                        newPin = placeIcon(map, pinGeo.latlng, pin$.attr("class"), settings);
+                        newPin = placeIcon(map, pinGeo.latlng, $pin.attr("class"), settings);
                         if (newPin.setContent) {
                             newPin.setContent(i + 1);
                         }
-                        if (pin$.children().filter(':not(.geo):not(.maps-pinLink)').length > 0) {
-                            windowContents = pin$.html();
+                        if ($pin.children().filter(':not(.geo):not(.maps-pinLink)').length > 0) {
+                            windowContents = $pin.html();
                         }
                         if (windowContents) {
                             if (settings.customWindows) {
@@ -159,8 +166,8 @@
                                 });
                             }
                         }
-                        if (pin$.attr('id')) {
-                            pins[pin$.attr('id')] = { pin: newPin, index: i, windowContents: windowContents };
+                        if ($pin.attr('id')) {
+                            pins[$pin.attr('id')] = { pin: newPin, index: i, windowContents: windowContents };
                         } else {
                             pins[i + 1] = { pin: newPin, index: i };
                         }
@@ -168,14 +175,14 @@
                 });
 
             }
-            if (settings.centerPin === true || (settings.centerPin === 'auto' && mapPins$.length === 0)) {
+            if (settings.centerPin === true || (settings.centerPin === 'auto' && $mapPins.length === 0)) {
                 var centrePin = placeIcon(map, mainGeo.latlng, '', settings);
             }
 
             attachExternalInteractions();
 
             $(mapHolder).addClass("maps-container-applied");
-            self.removeClass("maps-loading")
+            $this.removeClass("maps-loading")
                 .addClass("maps-loaded")
                 .addClass("maps-applied");
 
